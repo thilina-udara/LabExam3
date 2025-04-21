@@ -22,7 +22,7 @@ package com.example.labexam3
                 saveButton = findViewById(R.id.saveSettingsButton)
 
                 // Setup currency spinner
-                val currencies = arrayOf("$ (USD)", "€ (EUR)", "£ (GBP)", "¥ (JPY)", "₹ (INR)")
+                val currencies = arrayOf("$ (USD)", "€ (EUR)", "£ (GBP)", "¥ (JPY)", "Rs (LKR)")
                 val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencies)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 currencySpinner.adapter = adapter
@@ -75,7 +75,7 @@ package com.example.labexam3
                     "€" -> 1
                     "£" -> 2
                     "¥" -> 3
-                    "₹" -> 4
+                    "Rs" -> 4
                     else -> 0
                 }
 
@@ -88,7 +88,7 @@ package com.example.labexam3
                     1 -> "€"
                     2 -> "£"
                     3 -> "¥"
-                    4 -> "₹"
+                    4 -> "Rs."
                     else -> "$"
                 }
 

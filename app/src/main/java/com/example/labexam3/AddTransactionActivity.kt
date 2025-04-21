@@ -1,11 +1,13 @@
 package com.example.labexam3
 
+          import android.app.DatePickerDialog
           import android.content.Intent
           import android.os.Bundle
           import android.view.View
           import android.widget.ArrayAdapter
           import android.widget.Button
           import android.widget.EditText
+          import android.widget.ImageButton
           import android.widget.RadioButton
           import android.widget.RadioGroup
           import android.widget.Spinner
@@ -15,10 +17,12 @@ package com.example.labexam3
           import org.json.JSONObject
           import java.io.File
           import java.text.SimpleDateFormat
+          import java.util.Calendar
           import java.util.Date
           import java.util.Locale
 
           class AddTransactionActivity : AppCompatActivity() {
+              private lateinit var titleEditText: EditText
               private lateinit var amountEditText: EditText
               private lateinit var descriptionEditText: EditText
               private lateinit var typeRadioGroup: RadioGroup
@@ -26,12 +30,19 @@ package com.example.labexam3
               private lateinit var categorySpinner: Spinner
               private lateinit var saveButton: Button
               private lateinit var cancelButton: Button
+              // Date fields
+              private lateinit var dateEditText: EditText
+              private lateinit var datePickerButton: ImageButton
+              private var selectedDate: String = ""
 
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
                   setContentView(R.layout.activity_add_transaction)
 
+                  supportActionBar?.title = "Add New Transaction"
+
                   // Initialize UI components
+                  titleEditText = findViewById(R.id.titleEditText)
                   amountEditText = findViewById(R.id.amountEditText)
                   descriptionEditText = findViewById(R.id.descriptionEditText)
                   typeRadioGroup = findViewById(R.id.typeRadioGroup)
@@ -39,6 +50,15 @@ package com.example.labexam3
                   categorySpinner = findViewById(R.id.categorySpinner)
                   saveButton = findViewById(R.id.saveButton)
                   cancelButton = findViewById(R.id.cancelButton)
+
+                  // Initialize date components
+                  dateEditText = findViewById(R.id.dateEditText)
+                  datePickerButton = findViewById(R.id.datePickerButton)
+
+                  // Set current date as default
+                  val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                  selectedDate = dateFormat.format(Date())
+                  dateEditText.setText(selectedDate)
 
                   // Set up category spinner
                   val categories = arrayOf(
@@ -51,6 +71,10 @@ package com.example.labexam3
 
                   // Set default values
                   incomeRadioButton.isChecked = true
+
+                  // Set up date picker listeners
+                  dateEditText.setOnClickListener { showDatePicker() }
+                  datePickerButton.setOnClickListener { showDatePicker() }
 
                   // Set up save button
                   saveButton.setOnClickListener {
@@ -93,13 +117,39 @@ package com.example.labexam3
                   }
               }
 
+              private fun showDatePicker() {
+                  val calendar = Calendar.getInstance()
+
+                  if (selectedDate.isNotEmpty()) {
+                      try {
+                          val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(selectedDate)
+                          if (date != null) {
+                              calendar.time = date
+                          }
+                      } catch (e: Exception) {
+                          // Use current date if there's an error parsing
+                      }
+                  }
+
+                  val year = calendar.get(Calendar.YEAR)
+                  val month = calendar.get(Calendar.MONTH)
+                  val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+                  DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                      calendar.set(selectedYear, selectedMonth, selectedDay)
+                      selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+                      dateEditText.setText(selectedDate)
+                  }, year, month, day).show()
+              }
+
               private fun saveTransaction() {
+                  val title = titleEditText.text.toString()
                   val amountStr = amountEditText.text.toString()
                   val description = descriptionEditText.text.toString()
                   val isIncome = incomeRadioButton.isChecked
                   val category = categorySpinner.selectedItem.toString()
 
-                  if (amountStr.isEmpty() || description.isEmpty()) {
+                  if (title.isEmpty() || amountStr.isEmpty() || description.isEmpty()) {
                       Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                       return
                   }
@@ -113,15 +163,13 @@ package com.example.labexam3
 
                       val transactions = getAllTransactions()
 
-                      val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                      val currentDate = dateFormat.format(Date())
-
                       val transaction = JSONObject().apply {
+                          put("title", title)
                           put("amount", amount)
                           put("description", description)
                           put("type", if (isIncome) "INCOME" else "EXPENSE")
                           put("category", category)
-                          put("date", currentDate)
+                          put("date", selectedDate)
                       }
 
                       transactions.put(transaction)

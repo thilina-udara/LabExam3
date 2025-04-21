@@ -1,143 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                     xmlns:tools="http://schemas.android.com/tools"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:orientation="vertical"
-                     android:background="#d6eeff"
-                     android:padding="16dp"
-                     tools:context=".AnalysisActivity">
-
-                     <TextView
-                         android:id="@+id/tvAnalysisTitle"
+                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                         xmlns:tools="http://schemas.android.com/tools"
                          android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:text="Spending Summary"
-                         android:textColor="#3f51b5"
-                         android:textSize="24sp"
-                         android:textStyle="bold"
-                         android:gravity="center"
-                         android:layout_marginBottom="16dp" />
-
-                     <ScrollView
-                         android:layout_width="match_parent"
-                         android:layout_height="0dp"
-                         android:layout_weight="1">
+                         android:layout_height="match_parent"
+                         android:orientation="vertical"
+                         android:background="#d6eeff"
+                         tools:context=".AnalysisActivity">
 
                          <LinearLayout
                              android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:orientation="vertical">
+                             android:layout_height="0dp"
+                             android:layout_weight="1"
+                             android:orientation="vertical"
+                             android:padding="16dp">
 
                              <TextView
-                                 android:id="@+id/totalSpendingTextView"
+                                 android:id="@+id/tvAnalysisTitle"
                                  android:layout_width="match_parent"
                                  android:layout_height="wrap_content"
-                                 android:text="Total Spending: Rs. 0.00"
+                                 android:text="Spending Summary"
                                  android:textColor="#3f51b5"
-                                 android:textSize="18sp"
+                                 android:textSize="24sp"
                                  android:textStyle="bold"
+                                 android:gravity="center"
                                  android:layout_marginBottom="16dp" />
 
-                             <androidx.cardview.widget.CardView
+                             <ScrollView
                                  android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:layout_marginBottom="16dp">
+                                 android:layout_height="match_parent">
 
                                  <LinearLayout
                                      android:layout_width="match_parent"
                                      android:layout_height="wrap_content"
-                                     android:orientation="vertical"
-                                     android:padding="12dp">
+                                     android:orientation="vertical">
+
+                                     <TextView
+                                         android:id="@+id/totalSpendingTextView"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:text="Total Spending: Rs. 0.00"
+                                         android:textColor="#3f51b5"
+                                         android:textSize="18sp"
+                                         android:textStyle="bold"
+                                         android:layout_marginBottom="16dp" />
+
+                                     <androidx.cardview.widget.CardView
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginBottom="16dp">
+
+                                         <LinearLayout
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:orientation="vertical"
+                                             android:padding="12dp">
+
+                                             <TextView
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:text="Budget Usage"
+                                                 android:textStyle="bold"
+                                                 android:textSize="16sp"
+                                                 android:layout_marginBottom="8dp" />
+
+                                             <ProgressBar
+                                                 android:id="@+id/progressSpending"
+                                                 style="?android:attr/progressBarStyleHorizontal"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:progress="72"
+                                                 android:layout_marginBottom="8dp" />
+
+                                             <TextView
+                                                 android:id="@+id/budgetStatusTextView"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:text="You've spent 72% of your budget."
+                                                 android:textStyle="italic" />
+                                         </LinearLayout>
+                                     </androidx.cardview.widget.CardView>
+
+                                     <androidx.cardview.widget.CardView
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginBottom="16dp">
+
+                                         <LinearLayout
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:orientation="vertical"
+                                             android:padding="12dp">
+
+                                             <TextView
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:text="Insights"
+                                                 android:textStyle="bold"
+                                                 android:textSize="16sp"
+                                                 android:layout_marginBottom="8dp" />
+
+                                             <TextView
+                                                 android:id="@+id/insightsTextView"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:text="You spent the most on Food this month." />
+                                         </LinearLayout>
+                                     </androidx.cardview.widget.CardView>
 
                                      <TextView
                                          android:layout_width="match_parent"
                                          android:layout_height="wrap_content"
-                                         android:text="Budget Usage"
+                                         android:text="Category Breakdown"
                                          android:textStyle="bold"
                                          android:textSize="16sp"
                                          android:layout_marginBottom="8dp" />
 
-                                     <ProgressBar
-                                         android:id="@+id/progressSpending"
-                                         style="?android:attr/progressBarStyleHorizontal"
-                                         android:layout_width="match_parent"
-                                         android:layout_height="wrap_content"
-                                         android:progress="72"
-                                         android:layout_marginBottom="8dp" />
-
                                      <TextView
-                                         android:id="@+id/budgetStatusTextView"
+                                         android:id="@+id/noDataTextView"
                                          android:layout_width="match_parent"
                                          android:layout_height="wrap_content"
-                                         android:text="You've spent 72% of your budget."
-                                         android:textStyle="italic" />
-                                 </LinearLayout>
-                             </androidx.cardview.widget.CardView>
-
-                             <androidx.cardview.widget.CardView
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:layout_marginBottom="16dp">
-
-                                 <LinearLayout
-                                     android:layout_width="match_parent"
-                                     android:layout_height="wrap_content"
-                                     android:orientation="vertical"
-                                     android:padding="12dp">
-
-                                     <TextView
-                                         android:layout_width="match_parent"
-                                         android:layout_height="wrap_content"
-                                         android:text="Insights"
-                                         android:textStyle="bold"
+                                         android:text="No expense data available"
                                          android:textSize="16sp"
-                                         android:layout_marginBottom="8dp" />
+                                         android:textColor="#3f51b5"
+                                         android:gravity="center"
+                                         android:visibility="gone" />
 
-                                     <TextView
-                                         android:id="@+id/insightsTextView"
+                                     <ListView
+                                         android:id="@+id/analysisListView"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="200dp"
+                                         android:divider="#CCCCCC"
+                                         android:dividerHeight="1dp" />
+
+                                     <Button
+                                         android:id="@+id/btnBackToDashboard"
                                          android:layout_width="match_parent"
                                          android:layout_height="wrap_content"
-                                         android:text="You spent the most on Food this month." />
+                                         android:text="Back to Dashboard"
+                                         android:backgroundTint="#ff6f61"
+                                         android:textColor="#FFFFFF"
+                                         android:layout_marginTop="16dp" />
                                  </LinearLayout>
-                             </androidx.cardview.widget.CardView>
-
-                             <TextView
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:text="Category Breakdown"
-                                 android:textStyle="bold"
-                                 android:textSize="16sp"
-                                 android:layout_marginBottom="8dp" />
-
-                             <TextView
-                                 android:id="@+id/noDataTextView"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:text="No expense data available"
-                                 android:textSize="16sp"
-                                 android:textColor="#3f51b5"
-                                 android:gravity="center"
-                                 android:visibility="gone" />
-
-                             <ListView
-                                 android:id="@+id/analysisListView"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="200dp"
-                                 android:divider="#CCCCCC"
-                                 android:dividerHeight="1dp" />
-
-                             <Button
-                                 android:id="@+id/btnBackToDashboard"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:text="Back to Dashboard"
-                                 android:backgroundTint="#ff6f61"
-                                 android:textColor="#FFFFFF"
-                                 android:layout_marginTop="16dp" />
+                             </ScrollView>
                          </LinearLayout>
-                     </ScrollView>
 
-                     <!-- Bottom Navigation -->
-                     <include layout="@layout/bottom_nav_bar" />
-                 </LinearLayout>
+                         <!-- Bottom Navigation Bar properly aligned -->
+                         <include layout="@layout/bottom_nav_bar" />
+                     </LinearLayout>

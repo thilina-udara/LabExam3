@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#d6eeff"
+                    tools:context=".EditTransactionActivity">
+
+                    <!-- Your existing content -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/titleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Edit Transaction"
+                            android:textColor="#3f51b5"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:layout_marginBottom="24dp" />
+
+                        <!-- Title Field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/titleEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:hint="Enter transaction title"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Amount Field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amount"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/amountEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:hint="Enter amount"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Description Field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/descriptionEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:hint="Enter description"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Transaction Type -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Transaction Type"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/typeRadioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp">
+
+                            <RadioButton
+                                android:id="@+id/incomeRadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Income"
+                                android:textColor="#4caf50"
+                                android:layout_marginEnd="32dp" />
+
+                            <RadioButton
+                                android:id="@+id/expenseRadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Expense"
+                                android:textColor="#f44336" />
+                        </RadioGroup>
+
+                        <!-- Category -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Category"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <Spinner
+                            android:id="@+id/categorySpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Date Field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            android:textColor="#3f51b5"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="24dp">
+
+                            <EditText
+                                android:id="@+id/dateEditText"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:inputType="none"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:hint="Select date" />
+
+                            <ImageButton
+                                android:id="@+id/datePickerButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@android:drawable/ic_menu_my_calendar"
+                                android:contentDescription="Select date"
+                                android:backgroundTint="#ff6f61" />
+                        </LinearLayout>
+
+                        <!-- Improved Action Buttons Layout -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="8dp">
+
+                            <!-- Cancel button at top -->
+                            <Button
+                                android:id="@+id/cancelButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Cancel"
+                                android:backgroundTint="#757575"
+                                android:textColor="#FFFFFF"
+                                android:padding="12dp"
+                                android:layout_marginBottom="16dp" />
+
+                            <!-- Edit on left, Delete on right -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <!-- Update button on left -->
+                                <Button
+                                    android:id="@+id/saveButton"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Update"
+                                    android:backgroundTint="#2196F3"
+                                    android:textColor="#FFFFFF"
+                                    android:padding="12dp"
+                                    android:layout_marginEnd="8dp" />
+
+                                <!-- Delete button on right -->
+                                <Button
+                                    android:id="@+id/deleteButton"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Delete"
+                                    android:backgroundTint="#E53935"
+                                    android:textColor="#FFFFFF"
+                                    android:padding="12dp"
+                                    android:layout_marginStart="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Bottom Navigation -->
+                    <include layout="@layout/bottom_nav_bar" />
+                </LinearLayout>
