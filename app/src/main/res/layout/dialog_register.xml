@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:background="#d6eeff">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Create a New Account"
+                                android:textColor="#3f51b5"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:layout_marginBottom="16dp" />
+
+                            <EditText
+                                android:id="@+id/etRegisterGmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Enter Gmail"
+                                android:inputType="textEmailAddress"
+                                android:padding="12dp"
+                                android:background="#FFFFFF"
+                                android:layout_marginBottom="16dp" />
+
+                            <EditText
+                                android:id="@+id/etRegisterUsername"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Create Username"
+                                android:inputType="text"
+                                android:padding="12dp"
+                                android:background="#FFFFFF"
+                                android:layout_marginBottom="16dp" />
+
+                            <EditText
+                                android:id="@+id/etRegisterPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Create Password"
+                                android:inputType="textPassword"
+                                android:padding="12dp"
+                                android:background="#FFFFFF"
+                                android:layout_marginBottom="16dp" />
+
+                            <EditText
+                                android:id="@+id/etConfirmPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Confirm Password"
+                                android:inputType="textPassword"
+                                android:padding="12dp"
+                                android:background="#FFFFFF" />
+
+                        </LinearLayout>

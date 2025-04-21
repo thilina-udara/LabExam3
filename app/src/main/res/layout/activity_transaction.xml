@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#d6eeff"
+        tools:context=".TransactionActivity">
+
+        <!-- Your existing content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="No transactions available"
+                android:textSize="18sp"
+                android:textColor="#3f51b5"
+                android:gravity="center"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/transactionListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#d6eeff"
+                android:dividerHeight="8dp" />
+
+        </LinearLayout>
+
+        <!-- Bottom Navigation -->
+        <include layout="@layout/bottom_nav_bar" />
+    </LinearLayout>
