@@ -83,6 +83,8 @@
                             android:contentDescription="Change Profile Picture" />
                     </FrameLayout>
 
+
+
                     <!-- 📧 Gmail Display -->
                     <TextView
                         android:id="@+id/displayEmailText"
@@ -257,16 +259,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sign Out Button -->
-            <Button
-                android:id="@+id/signOutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign Out"
-                android:backgroundTint="#FF5252"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp" />
+            <!-- Personal Details -->
 
             <!-- Save Button -->
             <Button

@@ -24,7 +24,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var currencySpinner: Spinner
     private lateinit var themeRadioGroup: RadioGroup
     private lateinit var saveButton: Button
-    private lateinit var signOutButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +66,6 @@ class SettingsActivity : AppCompatActivity() {
         currencySpinner = findViewById(R.id.currencySpinner)
         themeRadioGroup = findViewById(R.id.themeRadioGroup)
         saveButton = findViewById(R.id.saveSettingsButton)
-        signOutButton = findViewById(R.id.signOutButton)
     }
 
     private fun setupListeners() {
@@ -85,39 +83,6 @@ class SettingsActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             saveAllSettings()
         }
-
-        // Sign out button
-        signOutButton.setOnClickListener {
-            showSignOutConfirmationDialog()
-        }
-    }
-
-    private fun showSignOutConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Sign Out")
-            .setMessage("Are you sure you want to sign out?")
-            .setPositiveButton("Yes") { _, _ ->
-                signOut()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun signOut() {
-        // Clear login state
-        val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
-        userPrefs.edit().putBoolean("isLoggedIn", false).apply()
-
-        // Optional: Clear sensitive data if needed
-        // userPrefs.edit().remove("password").apply()
-
-        Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT).show()
-
-        // Navigate to login activity
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupCurrencySpinner() {

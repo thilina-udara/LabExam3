@@ -28,7 +28,17 @@
                      android:gravity="center"
                      android:layout_marginBottom="32dp" />
 
-    <EditText
+                 <EditText
+                     android:id="@+id/etGmail"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:hint="Enter Gmail"
+                     android:inputType="textEmailAddress"
+                     android:padding="12dp"
+                     android:background="#FFFFFF"
+                     android:layout_marginBottom="16dp" />
+
+                 <EditText
                      android:id="@+id/etUsername"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
