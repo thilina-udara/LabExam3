@@ -1,299 +1,295 @@
 package com.example.labexam3
 
-                        import android.app.Dialog
-                        import android.content.Intent
-                        import android.net.Uri
-                        import android.os.Bundle
-                        import android.provider.MediaStore
-                        import android.view.View
-                        import android.widget.*
-                        import androidx.appcompat.app.AlertDialog
-                        import androidx.appcompat.app.AppCompatActivity
-                        import com.google.android.material.textfield.TextInputEditText
-                        import com.google.android.material.textfield.TextInputLayout
+import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.provider.MediaStore
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
-                        class SettingsActivity : AppCompatActivity() {
-                            // UI Components
-                            private lateinit var profileImageView: ImageView
-                            private lateinit var changeProfileButton: ImageView
-                            private lateinit var displayEmailText: TextView
-                            private lateinit var displayUsernameText: TextView
-                            private lateinit var usernameEditText: EditText
-                            private lateinit var emailEditText: EditText
-                            private lateinit var changePasswordButton: Button
-                            private lateinit var currencySpinner: Spinner
-                            private lateinit var themeRadioGroup: RadioGroup
-//                            private lateinit var phoneEditText: EditText
-//                            private lateinit var addressEditText: EditText
-                            private lateinit var saveButton: Button
+class SettingsActivity : AppCompatActivity() {
+    // UI Components
+    private lateinit var profileImageView: ImageView
+    private lateinit var changeProfileButton: ImageView
+    private lateinit var displayEmailText: TextView
+    private lateinit var displayUsernameText: TextView
+    private lateinit var usernameEditText: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var changePasswordButton: Button
+    private lateinit var currencySpinner: Spinner
+    private lateinit var themeRadioGroup: RadioGroup
+    private lateinit var saveButton: Button
 
-                            override fun onCreate(savedInstanceState: Bundle?) {
-                                super.onCreate(savedInstanceState)
-                                setContentView(R.layout.activity_settings)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
 
-                                // Initialize UI components
-                                initializeViews()
+        // Initialize UI components
+        initializeViews()
 
-                                // Setup click listeners
-                                setupListeners()
+        // Setup click listeners
+        setupListeners()
 
-                                // Setup currency spinner
-                                setupCurrencySpinner()
+        // Setup currency spinner
+        setupCurrencySpinner()
 
-                                // Load current settings
-                                loadSettings()
+        // Load current settings
+        loadSettings()
 
-                                // Set up navigation
-                                setupNavigation()
-                            }
+        // Set up navigation
+        setupNavigation()
 
-                            private fun initializeViews() {
-                                profileImageView = findViewById(R.id.profileImageView)
-                                changeProfileButton = findViewById(R.id.changeProfileButton)
-                                displayEmailText = findViewById(R.id.displayEmailText)
-                                displayUsernameText = findViewById(R.id.displayUsernameText)
-                                usernameEditText = findViewById(R.id.usernameEditText)
-                                emailEditText = findViewById(R.id.emailEditText)
-                                changePasswordButton = findViewById(R.id.changePasswordButton)
-                                currencySpinner = findViewById(R.id.currencySpinner)
-                                themeRadioGroup = findViewById(R.id.themeRadioGroup)
-//                                phoneEditText = findViewById(R.id.phoneEditText)
-//                                addressEditText = findViewById(R.id.addressEditText)
-                                saveButton = findViewById(R.id.saveSettingsButton)
-                            }
+        // Highlight the Settings navigation item
+        BottomNavHelper.updateSelectedNav(this, R.id.navSettings)
+    }
 
-                            private fun setupListeners() {
-                                // Profile image click listener
-                                changeProfileButton.setOnClickListener {
-                                    openImagePicker()
-                                }
+    override fun onResume() {
+        super.onResume()
 
-                                // Change password button
-                                changePasswordButton.setOnClickListener {
-                                    showChangePasswordDialog()
-                                }
+        // Re-highlight the Settings navigation item when returning to this activity
+        BottomNavHelper.updateSelectedNav(this, R.id.navSettings)
+    }
 
-                                // Save button
-                                saveButton.setOnClickListener {
-                                    saveAllSettings()
-                                }
-                            }
+    private fun initializeViews() {
+        profileImageView = findViewById(R.id.profileImageView)
+        changeProfileButton = findViewById(R.id.changeProfileButton)
+        displayEmailText = findViewById(R.id.displayEmailText)
+        displayUsernameText = findViewById(R.id.displayUsernameText)
+        usernameEditText = findViewById(R.id.usernameEditText)
+        emailEditText = findViewById(R.id.emailEditText)
+        changePasswordButton = findViewById(R.id.changePasswordButton)
+        currencySpinner = findViewById(R.id.currencySpinner)
+        themeRadioGroup = findViewById(R.id.themeRadioGroup)
+        saveButton = findViewById(R.id.saveSettingsButton)
+    }
 
-                            private fun setupCurrencySpinner() {
-                                val currencies = arrayOf("$ (USD)", "€ (EUR)", "£ (GBP)", "¥ (JPY)", "Rs (LKR)")
-                                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencies)
-                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                                currencySpinner.adapter = adapter
-                            }
+    private fun setupListeners() {
+        // Profile image click listener
+        changeProfileButton.setOnClickListener {
+            openImagePicker()
+        }
 
-                            private fun loadSettings() {
-                                // Load app preferences
-                                val appPrefs = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
-                                val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
+        // Change password button
+        changePasswordButton.setOnClickListener {
+            showChangePasswordDialog()
+        }
 
-                                // Load profile image
-                                val profileImageUri = appPrefs.getString("profileImageUri", null)
-                                if (!profileImageUri.isNullOrEmpty()) {
-                                    try {
-                                        profileImageView.setImageURI(Uri.parse(profileImageUri))
-                                    } catch (e: Exception) {
-                                        // If there's an error, use the placeholder
-                                    }
-                                }
+        // Save button
+        saveButton.setOnClickListener {
+            saveAllSettings()
+        }
+    }
 
-                                // Load user info
-                                val username = userPrefs.getString("username", "")
-                                val email = userPrefs.getString("gmail", "")
-                                displayUsernameText.text = "@$username"
-                                displayEmailText.text = email
-                                usernameEditText.setText(username)
-                                emailEditText.setText(email)
+    private fun setupCurrencySpinner() {
+        val currencies = arrayOf("$ (USD)", "€ (EUR)", "£ (GBP)", "¥ (JPY)", "Rs (LKR)")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencies)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        currencySpinner.adapter = adapter
+    }
 
-                                // Load currency
-                                val currency = appPrefs.getString("currency", "$")
-                                val position = when(currency) {
-                                    "$" -> 0
-                                    "€" -> 1
-                                    "£" -> 2
-                                    "¥" -> 3
-                                    "Rs" -> 4
-                                    else -> 0
-                                }
-                                currencySpinner.setSelection(position)
+    private fun loadSettings() {
+        // Load app preferences
+        val appPrefs = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
+        val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
 
-                                // Load theme preference
-                                val theme = appPrefs.getString("theme", "system")
-                                when(theme) {
-                                    "light" -> themeRadioGroup.check(R.id.lightThemeRadio)
-                                    "dark" -> themeRadioGroup.check(R.id.darkThemeRadio)
-                                    else -> themeRadioGroup.check(R.id.systemThemeRadio)
-                                }
+        // Load profile image
+        val profileImageUri = appPrefs.getString("profileImageUri", null)
+        if (!profileImageUri.isNullOrEmpty()) {
+            try {
+                profileImageView.setImageURI(Uri.parse(profileImageUri))
+            } catch (e: Exception) {
+                // If there's an error, use the placeholder
+            }
+        }
 
-                                // Load personal details
-//                                phoneEditText.setText(appPrefs.getString("phone", ""))
-//                                addressEditText.setText(appPrefs.getString("address", ""))
-                            }
+        // Load user info
+        val username = userPrefs.getString("username", "")
+        val email = userPrefs.getString("gmail", "")
+        displayUsernameText.text = "@$username"
+        displayEmailText.text = email
+        usernameEditText.setText(username)
+        emailEditText.setText(email)
 
-                            private fun saveAllSettings() {
-                                val appPrefs = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
-                                val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
+        // Load currency
+        val currency = appPrefs.getString("currency", "$")
+        val position = when(currency) {
+            "$" -> 0
+            "€" -> 1
+            "£" -> 2
+            "¥" -> 3
+            "Rs" -> 4
+            else -> 0
+        }
+        currencySpinner.setSelection(position)
 
-                                // Save username
-                                val username = usernameEditText.text.toString().trim()
-                                if (username.isNotEmpty()) {
-                                    userPrefs.edit().putString("username", username).apply()
-                                    displayUsernameText.text = "@$username"
-                                }
+        // Load theme preference
+        val theme = appPrefs.getString("theme", "system")
+        when(theme) {
+            "light" -> themeRadioGroup.check(R.id.lightThemeRadio)
+            "dark" -> themeRadioGroup.check(R.id.darkThemeRadio)
+            else -> themeRadioGroup.check(R.id.systemThemeRadio)
+        }
+    }
 
-                                // Save currency
-                                val currency = when(currencySpinner.selectedItemPosition) {
-                                    0 -> "$"
-                                    1 -> "€"
-                                    2 -> "£"
-                                    3 -> "¥"
-                                    4 -> "Rs"
-                                    else -> "$"
-                                }
-                                appPrefs.edit().putString("currency", currency).apply()
+    private fun saveAllSettings() {
+        val appPrefs = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
+        val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
 
-                                // Save theme preference
-                                val theme = when(themeRadioGroup.checkedRadioButtonId) {
-                                    R.id.lightThemeRadio -> "light"
-                                    R.id.darkThemeRadio -> "dark"
-                                    else -> "system"
-                                }
-                                appPrefs.edit().putString("theme", theme).apply()
-                                applyTheme(theme)
+        // Save username
+        val username = usernameEditText.text.toString().trim()
+        if (username.isNotEmpty()) {
+            userPrefs.edit().putString("username", username).apply()
+            displayUsernameText.text = "@$username"
+        }
 
-                                // Save personal details
-//                                appPrefs.edit()
-//                                    .putString("phone", phoneEditText.text.toString())
-//                                    .putString("address", addressEditText.text.toString())
-//                                    .apply()
+        // Save currency
+        val currency = when(currencySpinner.selectedItemPosition) {
+            0 -> "$"
+            1 -> "€"
+            2 -> "£"
+            3 -> "¥"
+            4 -> "Rs"
+            else -> "$"
+        }
+        appPrefs.edit().putString("currency", currency).apply()
 
-                                Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show()
-                            }
+        // Save theme preference
+        val theme = when(themeRadioGroup.checkedRadioButtonId) {
+            R.id.lightThemeRadio -> "light"
+            R.id.darkThemeRadio -> "dark"
+            else -> "system"
+        }
+        appPrefs.edit().putString("theme", theme).apply()
+        applyTheme(theme)
 
-                            private fun applyTheme(theme: String) {
-                                // Would implement actual theme change here
-                                // This requires AppCompatDelegate.setDefaultNightMode()
-                                // which you could implement later
-                            }
+        Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show()
+    }
 
-                            private fun showChangePasswordDialog() {
-                                // Fix: Use layoutInflater to inflate the view
-                                val dialogView = layoutInflater.inflate(R.layout.dialog_change_password, null)
+    private fun applyTheme(theme: String) {
+        // Would implement actual theme change here
+        // This requires AppCompatDelegate.setDefaultNightMode()
+        // which you could implement later
+    }
 
-                                // Get references to EditText fields
-                                val currentPasswordEditText = dialogView.findViewById<EditText>(R.id.currentPasswordEditText)
-                                val newPasswordEditText = dialogView.findViewById<EditText>(R.id.newPasswordEditText)
-                                val confirmPasswordEditText = dialogView.findViewById<EditText>(R.id.confirmPasswordEditText)
+    private fun showChangePasswordDialog() {
+        // Fix: Use layoutInflater to inflate the view
+        val dialogView = layoutInflater.inflate(R.layout.dialog_change_password, null)
 
-                                val dialog = AlertDialog.Builder(this)
-                                    .setTitle("Change Password")
-                                    .setView(dialogView) // Pass View object to resolve ambiguity
-                                    .setPositiveButton("Save", null) // Set null to override default behavior
-                                    .setNegativeButton("Cancel", null)
-                                    .create()
+        // Get references to EditText fields
+        val currentPasswordEditText = dialogView.findViewById<EditText>(R.id.currentPasswordEditText)
+        val newPasswordEditText = dialogView.findViewById<EditText>(R.id.newPasswordEditText)
+        val confirmPasswordEditText = dialogView.findViewById<EditText>(R.id.confirmPasswordEditText)
 
-                                dialog.setOnShowListener {
-                                    val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
-                                    positiveButton.setOnClickListener {
-                                        if (validateAndChangePassword(
-                                            currentPasswordEditText.text.toString(),
-                                            newPasswordEditText.text.toString(),
-                                            confirmPasswordEditText.text.toString()
-                                        )) {
-                                            dialog.dismiss()
-                                        }
-                                    }
-                                }
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Change Password")
+            .setView(dialogView) // Pass View object to resolve ambiguity
+            .setPositiveButton("Save", null) // Set null to override default behavior
+            .setNegativeButton("Cancel", null)
+            .create()
 
-                                dialog.show()
-                            }
+        dialog.setOnShowListener {
+            val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
+            positiveButton.setOnClickListener {
+                if (validateAndChangePassword(
+                    currentPasswordEditText.text.toString(),
+                    newPasswordEditText.text.toString(),
+                    confirmPasswordEditText.text.toString()
+                )) {
+                    dialog.dismiss()
+                }
+            }
+        }
 
-                            private fun validateAndChangePassword(current: String, new: String, confirm: String): Boolean {
-                                if (current.isEmpty() || new.isEmpty() || confirm.isEmpty()) {
-                                    Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
-                                    return false
-                                }
+        dialog.show()
+    }
 
-                                val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
-                                val storedPassword = userPrefs.getString("password", "")
+    private fun validateAndChangePassword(current: String, new: String, confirm: String): Boolean {
+        if (current.isEmpty() || new.isEmpty() || confirm.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-                                if (current != storedPassword) {
-                                    Toast.makeText(this, "Current password is incorrect", Toast.LENGTH_SHORT).show()
-                                    return false
-                                }
+        val userPrefs = getSharedPreferences("CoinomyUserPrefs", MODE_PRIVATE)
+        val storedPassword = userPrefs.getString("password", "")
 
-                                if (new.length < 6) {
-                                    Toast.makeText(this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show()
-                                    return false
-                                }
+        if (current != storedPassword) {
+            Toast.makeText(this, "Current password is incorrect", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-                                if (new != confirm) {
-                                    Toast.makeText(this, "New passwords don't match", Toast.LENGTH_SHORT).show()
-                                    return false
-                                }
+        if (new.length < 6) {
+            Toast.makeText(this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-                                // Save the new password
-                                userPrefs.edit().putString("password", new).apply()
-                                Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
-                                return true
-                            }
+        if (new != confirm) {
+            Toast.makeText(this, "New passwords don't match", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
-                            private fun openImagePicker() {
-                                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                                startActivityForResult(intent, PICK_IMAGE_REQUEST)
-                            }
+        // Save the new password
+        userPrefs.edit().putString("password", new).apply()
+        Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
+        return true
+    }
 
-                            override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-                                super.onActivityResult(requestCode, resultCode, data)
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
 
-                                if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-                                    val selectedImageUri = data.data
-                                    profileImageView.setImageURI(selectedImageUri)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-                                    // Save the selected image URI
-                                    if (selectedImageUri != null) {
-                                        saveProfileImageUri(selectedImageUri.toString())
-                                    }
-                                }
-                            }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            val selectedImageUri = data.data
+            profileImageView.setImageURI(selectedImageUri)
 
-                            private fun saveProfileImageUri(uriString: String) {
-                                val sharedPreferences = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
-                                sharedPreferences.edit().putString("profileImageUri", uriString).apply()
-                            }
+            // Save the selected image URI
+            if (selectedImageUri != null) {
+                saveProfileImageUri(selectedImageUri.toString())
+            }
+        }
+    }
 
-                            private fun setupNavigation() {
-                                findViewById<View>(R.id.navHome).setOnClickListener {
-                                    startActivity(Intent(this, MainActivity::class.java))
-                                    finish()
-                                }
+    private fun saveProfileImageUri(uriString: String) {
+        val sharedPreferences = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
+        sharedPreferences.edit().putString("profileImageUri", uriString).apply()
+    }
 
-                                findViewById<View>(R.id.navTransactions).setOnClickListener {
-                                    startActivity(Intent(this, TransactionActivity::class.java))
-                                    finish()
-                                }
+    private fun setupNavigation() {
+        findViewById<View>(R.id.navHome).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
 
-                                findViewById<View>(R.id.navBudget).setOnClickListener {
-                                    startActivity(Intent(this, BudgetActivity::class.java))
-                                    finish()
-                                }
+        findViewById<View>(R.id.navTransactions).setOnClickListener {
+            startActivity(Intent(this, TransactionActivity::class.java))
+            finish()
+        }
 
-                                findViewById<View>(R.id.navAnalysis).setOnClickListener {
-                                    startActivity(Intent(this, AnalysisActivity::class.java))
-                                    finish()
-                                }
+        findViewById<View>(R.id.navBudget).setOnClickListener {
+            startActivity(Intent(this, BudgetActivity::class.java))
+            finish()
+        }
 
-                                // Settings is current activity
-                                findViewById<View>(R.id.navSettings).setOnClickListener {
-                                    // Already in this activity
-                                }
-                            }
+        findViewById<View>(R.id.navAnalysis).setOnClickListener {
+            startActivity(Intent(this, AnalysisActivity::class.java))
+            finish()
+        }
 
-                            companion object {
-                                private const val PICK_IMAGE_REQUEST = 1
-                            }
-                        }
+        // Settings is current activity
+        findViewById<View>(R.id.navSettings).setOnClickListener {
+            // Already in this activity
+        }
+    }
+
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 1
+    }
+}

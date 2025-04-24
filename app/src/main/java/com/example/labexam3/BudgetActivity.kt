@@ -1,319 +1,325 @@
 package com.example.labexam3
 
-                  import android.content.Intent
-                  import android.os.Bundle
-                  import android.view.View
-                  import android.widget.ArrayAdapter
-                  import android.widget.Button
-                  import android.widget.EditText
-                  import android.widget.ListView
-                  import android.widget.Spinner
-                  import android.widget.TextView
-                  import android.widget.Toast
-                  import androidx.appcompat.app.AlertDialog
-                  import androidx.appcompat.app.AppCompatActivity
-                  import org.json.JSONArray
-                  import org.json.JSONObject
-                  import java.io.File
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 
-                  class BudgetActivity : AppCompatActivity() {
+class BudgetActivity : AppCompatActivity() {
 
-                      private lateinit var budgetListView: ListView
-                      private lateinit var emptyTextView: TextView
-                      private lateinit var addBudgetButton: Button
+    private lateinit var budgetListView: ListView
+    private lateinit var emptyTextView: TextView
+    private lateinit var addBudgetButton: Button
 
-                      override fun onCreate(savedInstanceState: Bundle?) {
-                          super.onCreate(savedInstanceState)
-                          setContentView(R.layout.activity_budget)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_budget)
 
-                          // Initialize UI components
-                          emptyTextView = findViewById(R.id.emptyTextView)
-                          budgetListView = findViewById(R.id.budgetListView)
-                          addBudgetButton = findViewById(R.id.addBudgetButton)
+        // Initialize UI components
+        emptyTextView = findViewById(R.id.emptyTextView)
+        budgetListView = findViewById(R.id.budgetListView)
+        addBudgetButton = findViewById(R.id.addBudgetButton)
 
-                          // Load and display budgets
-                          loadBudgets()
+        // Load and display budgets
+        loadBudgets()
 
-                          // Set up add budget button
-                          addBudgetButton.setOnClickListener {
-                              showAddBudgetDialog()
-                          }
+        // Set up add budget button
+        addBudgetButton.setOnClickListener {
+            showAddBudgetDialog()
+        }
 
-                          // Set up navigation
-                          setupNavigation()
-                      }
+        // Set up navigation
+        setupNavigation()
 
-                      private fun setupNavigation() {
-                          findViewById<View>(R.id.navHome).setOnClickListener {
-                              startActivity(Intent(this, MainActivity::class.java))
-                              finish()
-                          }
+        // Highlight the Budget navigation item
+        BottomNavHelper.updateSelectedNav(this, R.id.navBudget)
+    }
 
-                          findViewById<View>(R.id.navTransactions).setOnClickListener {
-                              startActivity(Intent(this, TransactionActivity::class.java))
-                              finish()
-                          }
+    private fun setupNavigation() {
+        findViewById<View>(R.id.navHome).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
 
-                          // Budget is current activity
-                          findViewById<View>(R.id.navBudget).setOnClickListener {
-                              // Already in this activity
-                          }
+        findViewById<View>(R.id.navTransactions).setOnClickListener {
+            startActivity(Intent(this, TransactionActivity::class.java))
+            finish()
+        }
 
-                          findViewById<View>(R.id.navAnalysis).setOnClickListener {
-                              startActivity(Intent(this, AnalysisActivity::class.java))
-                              finish()
-                          }
+        // Budget is current activity
+        findViewById<View>(R.id.navBudget).setOnClickListener {
+            // Already in this activity
+        }
 
-                          findViewById<View>(R.id.navSettings).setOnClickListener {
-                              startActivity(Intent(this, SettingsActivity::class.java))
-                              finish()
-                          }
-                      }
+        findViewById<View>(R.id.navAnalysis).setOnClickListener {
+            startActivity(Intent(this, AnalysisActivity::class.java))
+            finish()
+        }
 
-                      override fun onResume() {
-                          super.onResume()
-                          loadBudgets()
-                      }
+        findViewById<View>(R.id.navSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            finish()
+        }
+    }
 
-                      private fun loadBudgets() {
-                          val budgets = getAllBudgets()
+    override fun onResume() {
+        super.onResume()
+        loadBudgets()
 
-                          if (budgets.length() == 0) {
-                              emptyTextView.visibility = View.VISIBLE
-                              budgetListView.visibility = View.GONE
-                              return
-                          }
+        // Re-highlight the Budget navigation item when returning to this activity
+        BottomNavHelper.updateSelectedNav(this, R.id.navBudget)
+    }
 
-                          emptyTextView.visibility = View.GONE
-                          budgetListView.visibility = View.VISIBLE
+    private fun loadBudgets() {
+        val budgets = getAllBudgets()
 
-                          val transactions = getAllTransactions()
-                          val sharedPreferences = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
-                          val currencySymbol = sharedPreferences.getString("currency", "$") ?: "$"
+        if (budgets.length() == 0) {
+            emptyTextView.visibility = View.VISIBLE
+            budgetListView.visibility = View.GONE
+            return
+        }
 
-                          // Calculate spending by category
-                          val categorySpending = mutableMapOf<String, Double>()
+        emptyTextView.visibility = View.GONE
+        budgetListView.visibility = View.VISIBLE
 
-                          for (i in 0 until transactions.length()) {
-                              val transaction = transactions.getJSONObject(i)
-                              if (transaction.getString("type") == "EXPENSE") {
-                                  val category = transaction.getString("category")
-                                  val amount = transaction.getDouble("amount")
-                                  categorySpending[category] = (categorySpending[category] ?: 0.0) + amount
-                              }
-                          }
+        val transactions = getAllTransactions()
+        val sharedPreferences = getSharedPreferences("CoinomyPrefs", MODE_PRIVATE)
+        val currencySymbol = sharedPreferences.getString("currency", "$") ?: "$"
 
-                          // Create and set the adapter with edit and delete callbacks
-                          val adapter = BudgetAdapter(
-                              this,
-                              budgets,
-                              categorySpending,
-                              currencySymbol,
-                              onEditClick = { position -> showEditBudgetDialog(position) },
-                              onDeleteClick = { position -> confirmDeleteBudget(position) }
-                          )
+        // Calculate spending by category
+        val categorySpending = mutableMapOf<String, Double>()
 
-                          budgetListView.adapter = adapter
-                      }
+        for (i in 0 until transactions.length()) {
+            val transaction = transactions.getJSONObject(i)
+            if (transaction.getString("type") == "EXPENSE") {
+                val category = transaction.getString("category")
+                val amount = transaction.getDouble("amount")
+                categorySpending[category] = (categorySpending[category] ?: 0.0) + amount
+            }
+        }
 
-                      private fun getAllBudgets(): JSONArray {
-                          val file = File(filesDir, "budgets.json")
-                          if (!file.exists() || file.readText().isEmpty()) {
-                              return JSONArray()
-                          }
+        // Create and set the adapter with edit and delete callbacks
+        val adapter = BudgetAdapter(
+            this,
+            budgets,
+            categorySpending,
+            currencySymbol,
+            onEditClick = { position -> showEditBudgetDialog(position) },
+            onDeleteClick = { position -> confirmDeleteBudget(position) }
+        )
 
-                          return try {
-                              JSONArray(file.readText())
-                          } catch (e: Exception) {
-                              JSONArray()
-                          }
-                      }
+        budgetListView.adapter = adapter
+    }
 
-                      private fun getAllTransactions(): JSONArray {
-                          val file = File(filesDir, "transactions.json")
-                          if (!file.exists() || file.readText().isEmpty()) {
-                              return JSONArray()
-                          }
+    private fun getAllBudgets(): JSONArray {
+        val file = File(filesDir, "budgets.json")
+        if (!file.exists() || file.readText().isEmpty()) {
+            return JSONArray()
+        }
 
-                          return try {
-                              JSONArray(file.readText())
-                          } catch (e: Exception) {
-                              JSONArray()
-                          }
-                      }
+        return try {
+            JSONArray(file.readText())
+        } catch (e: Exception) {
+            JSONArray()
+        }
+    }
 
-                      private fun showAddBudgetDialog() {
-                          val dialogView = layoutInflater.inflate(R.layout.dialog_add_budget, null)
-                          val categorySpinner = dialogView.findViewById<Spinner>(R.id.categorySpinner)
-                          val budgetAmountEditText = dialogView.findViewById<EditText>(R.id.budgetAmountEditText)
+    private fun getAllTransactions(): JSONArray {
+        val file = File(filesDir, "transactions.json")
+        if (!file.exists() || file.readText().isEmpty()) {
+            return JSONArray()
+        }
 
-                          // Set up category spinner
-                          val categories = arrayOf(
-                              "Food & Dining", "Shopping", "Housing", "Transportation",
-                              "Entertainment", "Health", "Education", "Other"
-                          )
-                          val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-                          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                          categorySpinner.adapter = adapter
+        return try {
+            JSONArray(file.readText())
+        } catch (e: Exception) {
+            JSONArray()
+        }
+    }
 
-                          AlertDialog.Builder(this)
-                              .setTitle("Add New Budget")
-                              .setView(dialogView)
-                              .setPositiveButton("Save") { _, _ ->
-                                  val category = categorySpinner.selectedItem.toString()
-                                  val amountStr = budgetAmountEditText.text.toString()
+    private fun showAddBudgetDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_budget, null)
+        val categorySpinner = dialogView.findViewById<Spinner>(R.id.categorySpinner)
+        val budgetAmountEditText = dialogView.findViewById<EditText>(R.id.budgetAmountEditText)
 
-                                  if (amountStr.isEmpty()) {
-                                      Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show()
-                                      return@setPositiveButton
-                                  }
+        // Set up category spinner
+        val categories = arrayOf(
+            "Food & Dining", "Shopping", "Housing", "Transportation",
+            "Entertainment", "Health", "Education", "Other"
+        )
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = adapter
 
-                                  try {
-                                      val amount = amountStr.toDouble()
-                                      if (amount <= 0) {
-                                          Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
-                                          return@setPositiveButton
-                                      }
+        AlertDialog.Builder(this)
+            .setTitle("Add New Budget")
+            .setView(dialogView)
+            .setPositiveButton("Save") { _, _ ->
+                val category = categorySpinner.selectedItem.toString()
+                val amountStr = budgetAmountEditText.text.toString()
 
-                                      saveBudget(category, amount)
-                                      loadBudgets()
-                                  } catch (e: NumberFormatException) {
-                                      Toast.makeText(this, "Invalid amount format", Toast.LENGTH_SHORT).show()
-                                  }
-                              }
-                              .setNegativeButton("Cancel", null)
-                              .show()
-                      }
+                if (amountStr.isEmpty()) {
+                    Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
 
-                      private fun showEditBudgetDialog(position: Int) {
-                          val budgets = getAllBudgets()
-                          if (position >= budgets.length()) return
+                try {
+                    val amount = amountStr.toDouble()
+                    if (amount <= 0) {
+                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
 
-                          val budget = budgets.getJSONObject(position)
-                          val category = budget.getString("category")
-                          val amount = budget.getDouble("amount")
+                    saveBudget(category, amount)
+                    loadBudgets()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "Invalid amount format", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 
-                          val dialogView = layoutInflater.inflate(R.layout.dialog_add_budget, null)
-                          val categorySpinner = dialogView.findViewById<Spinner>(R.id.categorySpinner)
-                          val budgetAmountEditText = dialogView.findViewById<EditText>(R.id.budgetAmountEditText)
+    private fun showEditBudgetDialog(position: Int) {
+        val budgets = getAllBudgets()
+        if (position >= budgets.length()) return
 
-                          // Set up category spinner
-                          val categories = arrayOf(
-                              "Food & Dining", "Shopping", "Housing", "Transportation",
-                              "Entertainment", "Health", "Education", "Other"
-                          )
-                          val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-                          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                          categorySpinner.adapter = adapter
+        val budget = budgets.getJSONObject(position)
+        val category = budget.getString("category")
+        val amount = budget.getDouble("amount")
 
-                          // Set initial values
-                          val categoryPosition = categories.indexOf(category)
-                          if (categoryPosition >= 0) {
-                              categorySpinner.setSelection(categoryPosition)
-                          }
-                          budgetAmountEditText.setText(amount.toString())
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_budget, null)
+        val categorySpinner = dialogView.findViewById<Spinner>(R.id.categorySpinner)
+        val budgetAmountEditText = dialogView.findViewById<EditText>(R.id.budgetAmountEditText)
 
-                          AlertDialog.Builder(this)
-                              .setTitle("Edit Budget")
-                              .setView(dialogView)
-                              .setPositiveButton("Save") { _, _ ->
-                                  val newCategory = categorySpinner.selectedItem.toString()
-                                  val amountStr = budgetAmountEditText.text.toString()
+        // Set up category spinner
+        val categories = arrayOf(
+            "Food & Dining", "Shopping", "Housing", "Transportation",
+            "Entertainment", "Health", "Education", "Other"
+        )
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = adapter
 
-                                  if (amountStr.isEmpty()) {
-                                      Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show()
-                                      return@setPositiveButton
-                                  }
+        // Set initial values
+        val categoryPosition = categories.indexOf(category)
+        if (categoryPosition >= 0) {
+            categorySpinner.setSelection(categoryPosition)
+        }
+        budgetAmountEditText.setText(amount.toString())
 
-                                  try {
-                                      val newAmount = amountStr.toDouble()
-                                      if (newAmount <= 0) {
-                                          Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
-                                          return@setPositiveButton
-                                      }
+        AlertDialog.Builder(this)
+            .setTitle("Edit Budget")
+            .setView(dialogView)
+            .setPositiveButton("Save") { _, _ ->
+                val newCategory = categorySpinner.selectedItem.toString()
+                val amountStr = budgetAmountEditText.text.toString()
 
-                                      updateBudget(position, newCategory, newAmount)
-                                      loadBudgets()
-                                  } catch (e: NumberFormatException) {
-                                      Toast.makeText(this, "Invalid amount format", Toast.LENGTH_SHORT).show()
-                                  }
-                              }
-                              .setNegativeButton("Cancel", null)
-                              .show()
-                      }
+                if (amountStr.isEmpty()) {
+                    Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
 
-                      private fun updateBudget(position: Int, category: String, amount: Double) {
-                          val budgets = getAllBudgets()
-                          if (position < budgets.length()) {
-                              val budget = budgets.getJSONObject(position)
-                              budget.put("category", category)
-                              budget.put("amount", amount)
-                              saveBudgets(budgets)
-                              Toast.makeText(this, "Budget updated", Toast.LENGTH_SHORT).show()
-                          }
-                      }
+                try {
+                    val newAmount = amountStr.toDouble()
+                    if (newAmount <= 0) {
+                        Toast.makeText(this, "Amount must be greater than zero", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
 
-                      private fun confirmDeleteBudget(position: Int) {
-                          val budgets = getAllBudgets()
-                          if (position < budgets.length()) {
-                              val budget = budgets.getJSONObject(position)
-                              val category = budget.getString("category")
+                    updateBudget(position, newCategory, newAmount)
+                    loadBudgets()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "Invalid amount format", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 
-                              AlertDialog.Builder(this)
-                                  .setTitle("Delete Budget")
-                                  .setMessage("Are you sure you want to delete the budget for $category?")
-                                  .setPositiveButton("Delete") { _, _ ->
-                                      deleteBudget(position)
-                                      loadBudgets()
-                                  }
-                                  .setNegativeButton("Cancel", null)
-                                  .show()
-                          }
-                      }
+    private fun updateBudget(position: Int, category: String, amount: Double) {
+        val budgets = getAllBudgets()
+        if (position < budgets.length()) {
+            val budget = budgets.getJSONObject(position)
+            budget.put("category", category)
+            budget.put("amount", amount)
+            saveBudgets(budgets)
+            Toast.makeText(this, "Budget updated", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-                      private fun saveBudget(category: String, amount: Double) {
-                          val budgets = getAllBudgets()
+    private fun confirmDeleteBudget(position: Int) {
+        val budgets = getAllBudgets()
+        if (position < budgets.length()) {
+            val budget = budgets.getJSONObject(position)
+            val category = budget.getString("category")
 
-                          // Check if budget for this category already exists
-                          for (i in 0 until budgets.length()) {
-                              val budget = budgets.getJSONObject(i)
-                              if (budget.getString("category") == category) {
-                                  // Update existing budget
-                                  budget.put("amount", amount)
-                                  saveBudgets(budgets)
-                                  Toast.makeText(this, "Budget updated", Toast.LENGTH_SHORT).show()
-                                  return
-                              }
-                          }
+            AlertDialog.Builder(this)
+                .setTitle("Delete Budget")
+                .setMessage("Are you sure you want to delete the budget for $category?")
+                .setPositiveButton("Delete") { _, _ ->
+                    deleteBudget(position)
+                    loadBudgets()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+    }
 
-                          // Add new budget
-                          val budget = JSONObject().apply {
-                              put("category", category)
-                              put("amount", amount)
-                          }
+    private fun saveBudget(category: String, amount: Double) {
+        val budgets = getAllBudgets()
 
-                          budgets.put(budget)
-                          saveBudgets(budgets)
-                          Toast.makeText(this, "Budget added", Toast.LENGTH_SHORT).show()
-                      }
+        // Check if budget for this category already exists
+        for (i in 0 until budgets.length()) {
+            val budget = budgets.getJSONObject(i)
+            if (budget.getString("category") == category) {
+                // Update existing budget
+                budget.put("amount", amount)
+                saveBudgets(budgets)
+                Toast.makeText(this, "Budget updated", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
 
-                      private fun saveBudgets(budgets: JSONArray) {
-                          val file = File(filesDir, "budgets.json")
-                          file.writeText(budgets.toString())
-                      }
+        // Add new budget
+        val budget = JSONObject().apply {
+            put("category", category)
+            put("amount", amount)
+        }
 
-                      private fun deleteBudget(position: Int) {
-                          val budgets = getAllBudgets()
-                          if (budgets.length() > position) {
-                              val newBudgets = JSONArray()
-                              for (i in 0 until budgets.length()) {
-                                  if (i != position) {
-                                      newBudgets.put(budgets.get(i))
-                                  }
-                              }
+        budgets.put(budget)
+        saveBudgets(budgets)
+        Toast.makeText(this, "Budget added", Toast.LENGTH_SHORT).show()
+    }
 
-                              saveBudgets(newBudgets)
-                              Toast.makeText(this, "Budget deleted", Toast.LENGTH_SHORT).show()
-                          }
-                      }
-                  }
+    private fun saveBudgets(budgets: JSONArray) {
+        val file = File(filesDir, "budgets.json")
+        file.writeText(budgets.toString())
+    }
+
+    private fun deleteBudget(position: Int) {
+        val budgets = getAllBudgets()
+        if (budgets.length() > position) {
+            val newBudgets = JSONArray()
+            for (i in 0 until budgets.length()) {
+                if (i != position) {
+                    newBudgets.put(budgets.get(i))
+                }
+            }
+
+            saveBudgets(newBudgets)
+            Toast.makeText(this, "Budget deleted", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
