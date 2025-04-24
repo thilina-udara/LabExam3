@@ -15,7 +15,7 @@
             android:id="@+id/splashLogo"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/login"
             android:contentDescription="App Logo" />
 
         <TextView

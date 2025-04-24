@@ -1,279 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#d6eeff"
-    tools:context=".SettingsActivity">
-
-    <!-- Settings content -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp">
-
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#d6eeff"
+            tools:context=".SettingsActivity">
 
-            <!-- Page Title -->
-            <TextView
+            <!-- Settings content -->
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="#3f51b5"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="24dp" />
-
-            <!-- User Profile Section -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
+                    <!-- Page Title -->
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Profile"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:text="Settings"
                         android:textColor="#3f51b5"
-                        android:drawableStart="@android:drawable/ic_menu_myplaces"
-                        android:drawablePadding="8dp"
-                        android:layout_marginBottom="16dp" />
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginBottom="24dp" />
 
-                    <FrameLayout
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="16dp">
+                    <!-- User Profile Section -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
 
-                        <ImageView
-                            android:id="@+id/profileImageView"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/circle_background"
-                            android:src="@drawable/ic_profile_placeholder"
-                            android:scaleType="centerCrop"
-                            android:padding="2dp"
-                            android:contentDescription="Profile Picture" />
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
 
-                        <ImageView
-                            android:id="@+id/changeProfileButton"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="bottom|end"
-                            android:background="@drawable/circle_background"
-                            android:src="@android:drawable/ic_menu_camera"
-                            android:padding="8dp"
-                            android:contentDescription="Change Profile Picture" />
-                    </FrameLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Profile"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="#3f51b5"
+                                android:drawableStart="@android:drawable/ic_menu_myplaces"
+                                android:drawablePadding="8dp"
+                                android:layout_marginBottom="16dp" />
 
+                            <FrameLayout
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="16dp">
 
+                                <ImageView
+                                    android:id="@+id/profileImageView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/circle_background"
+                                    android:src="@drawable/ic_profile_placeholder"
+                                    android:scaleType="centerCrop"
+                                    android:padding="2dp"
+                                    android:contentDescription="Profile Picture" />
 
-                    <!-- 📧 Gmail Display -->
-                    <TextView
-                        android:id="@+id/displayEmailText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="user@example.com"
-                        android:textColor="#3f51b5"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="4dp" />
+                                <ImageView
+                                    android:id="@+id/changeProfileButton"
+                                    android:layout_width="36dp"
+                                    android:layout_height="36dp"
+                                    android:layout_gravity="bottom|end"
+                                    android:background="@drawable/circle_background"
+                                    android:src="@android:drawable/ic_menu_camera"
+                                    android:padding="8dp"
+                                    android:contentDescription="Change Profile Picture" />
+                            </FrameLayout>
 
-                    <!-- 👥 Username Display -->
-                    <TextView
-                        android:id="@+id/displayUsernameText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@username"
-                        android:textColor="#3f51b5"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="12dp" />
+                            <!-- 📧 Gmail Display -->
+                            <TextView
+                                android:id="@+id/displayEmailText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="user@example.com"
+                                android:textColor="#3f51b5"
+                                android:textSize="14sp"
+                                android:gravity="center"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="4dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textColor="#3f51b5"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp" />
+                            <!-- 👥 Username Display -->
+                            <TextView
+                                android:id="@+id/displayUsernameText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@username"
+                                android:textColor="#3f51b5"
+                                android:textSize="14sp"
+                                android:gravity="center"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="12dp" />
 
-                    <EditText
-                        android:id="@+id/usernameEditText"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textColor="#3f51b5"
+                                android:textSize="16sp"
+                                android:layout_marginBottom="8dp" />
+
+                            <EditText
+                                android:id="@+id/usernameEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:padding="12dp"
+                                android:background="@android:drawable/edit_text"
+                                android:layout_marginBottom="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Account Settings -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:padding="12dp"
-                        android:background="@android:drawable/edit_text"
-                        android:layout_marginBottom="8dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
 
-            <!-- Account Settings -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Account"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="#3f51b5"
+                                android:drawableStart="@android:drawable/ic_lock_lock"
+                                android:drawablePadding="8dp"
+                                android:layout_marginBottom="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Account"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#3f51b5"
-                        android:drawableStart="@android:drawable/ic_lock_lock"
-                        android:drawablePadding="8dp"
-                        android:layout_marginBottom="16dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email"
+                                android:textColor="#3f51b5"
+                                android:textSize="16sp"
+                                android:layout_marginBottom="8dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textColor="#3f51b5"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp" />
+                            <EditText
+                                android:id="@+id/emailEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textEmailAddress"
+                                android:padding="12dp"
+                                android:text="user@example.com"
+                                android:enabled="false"
+                                android:background="@android:drawable/edit_text"
+                                android:layout_marginBottom="16dp" />
 
-                    <EditText
-                        android:id="@+id/emailEditText"
+                            <Button
+                                android:id="@+id/changePasswordButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Change Password"
+                                android:backgroundTint="#ff6f61"
+                                android:textColor="#FFFFFF"
+                                android:drawableStart="@android:drawable/ic_lock_idle_lock"
+                                android:drawablePadding="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Preferences -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:padding="12dp"
-                        android:text="user@example.com"
-                        android:enabled="false"
-                        android:background="@android:drawable/edit_text"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Preferences"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="#3f51b5"
+                                android:drawableStart="@android:drawable/ic_menu_preferences"
+                                android:drawablePadding="8dp"
+                                android:layout_marginBottom="16dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Currency"
+                                android:textColor="#3f51b5"
+                                android:textSize="16sp"
+                                android:layout_marginBottom="8dp" />
+
+                            <Spinner
+                                android:id="@+id/currencySpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="16dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Theme"
+                                android:textColor="#3f51b5"
+                                android:textSize="16sp"
+                                android:layout_marginBottom="8dp" />
+
+                            <RadioGroup
+                                android:id="@+id/themeRadioGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/lightThemeRadio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Light" />
+
+                                <RadioButton
+                                    android:id="@+id/darkThemeRadio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dark" />
+
+                                <RadioButton
+                                    android:id="@+id/systemThemeRadio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="System Default"
+                                    android:checked="true" />
+                            </RadioGroup>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Sign Out Button -->
                     <Button
-                        android:id="@+id/changePasswordButton"
+                        android:id="@+id/signOutButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Change Password"
+                        android:text="Sign Out"
+                        android:backgroundTint="#FF5252"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <!-- Save Button -->
+                    <Button
+                        android:id="@+id/saveSettingsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Save Settings"
                         android:backgroundTint="#ff6f61"
                         android:textColor="#FFFFFF"
-                        android:drawableStart="@android:drawable/ic_lock_idle_lock"
-                        android:drawablePadding="8dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Preferences -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Preferences"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#3f51b5"
-                        android:drawableStart="@android:drawable/ic_menu_preferences"
-                        android:drawablePadding="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Currency"
-                        android:textColor="#3f51b5"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp" />
-
-                    <Spinner
-                        android:id="@+id/currencySpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Theme"
-                        android:textColor="#3f51b5"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp" />
-
-                    <RadioGroup
-                        android:id="@+id/themeRadioGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <RadioButton
-                            android:id="@+id/lightThemeRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Light" />
-
-                        <RadioButton
-                            android:id="@+id/darkThemeRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Dark" />
-
-                        <RadioButton
-                            android:id="@+id/systemThemeRadio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="System Default"
-                            android:checked="true" />
-                    </RadioGroup>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </ScrollView>
 
-            <!-- Personal Details -->
-
-            <!-- Save Button -->
-            <Button
-                android:id="@+id/saveSettingsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Settings"
-                android:backgroundTint="#ff6f61"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp" />
+            <!-- Bottom Navigation -->
+            <include layout="@layout/bottom_nav_bar" />
         </LinearLayout>
-    </ScrollView>
-
-    <!-- Bottom Navigation -->
-    <include layout="@layout/bottom_nav_bar" />
-</LinearLayout>
