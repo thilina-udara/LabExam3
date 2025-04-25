@@ -20,17 +20,17 @@ class OnboardingActivity : AppCompatActivity() {
 
     private val onboardingData = listOf(
         OnboardingItem(
-            R.drawable.login, // Changed to use your login image
+            R.drawable.onborad1, // Changed to use your login image
             "Track Your Finances",
             "Record your income and expenses easily to keep track of your money flow"
         ),
         OnboardingItem(
-            R.drawable.login, // Changed to use your login image
+            R.drawable.onborad2, // Changed to use your login image
             "Set and Manage Budgets",
             "Create budgets for different categories to control your spending"
         ),
         OnboardingItem(
-            R.drawable.login, // Changed to use your login image
+            R.drawable.onboard3, // Changed to use your login image
             "Analyze Your Spending",
             "Get insights on your financial habits with clear visualizations"
         )
